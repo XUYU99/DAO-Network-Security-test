@@ -1,0 +1,8 @@
+{
+    "tabWidth": 4,
+    "useTabs": false,
+    "semi": true,
+    "requirePragma": false,
+    "embeddedLanguageFormatting": "auto",
+    "bracketSpacing": true
+}

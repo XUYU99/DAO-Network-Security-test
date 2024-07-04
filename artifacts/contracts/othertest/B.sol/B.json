@@ -1,0 +1,37 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "B",
+  "sourceName": "contracts/othertest/B.sol",
+  "abi": [
+    {
+      "inputs": [],
+      "name": "getColor",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getFavorNumber",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x6080604052348015600f57600080fd5b50608c8061001e6000396000f3fe6080604052348015600f57600080fd5b506004361060325760003560e01c80639a86139b146037578063ec0c345814604e575b600080fd5b620516845b60405190815260200160405180910390f35b6203647d603c56fea2646970667358221220ee98760bec94304d7caa41794e29af1c5c05423b9888ad4b7e2fba95f983b6c764736f6c63430008180033",
+  "deployedBytecode": "0x6080604052348015600f57600080fd5b506004361060325760003560e01c80639a86139b146037578063ec0c345814604e575b600080fd5b620516845b60405190815260200160405180910390f35b6203647d603c56fea2646970667358221220ee98760bec94304d7caa41794e29af1c5c05423b9888ad4b7e2fba95f983b6c764736f6c63430008180033",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}
