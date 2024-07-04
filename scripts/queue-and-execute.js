@@ -10,20 +10,19 @@ const {
 } = require("../helper-hardhat-config");
 
 async function queueAndExecute(functionToCall, args, proposalDescription) {
+    console.log("投票结束，开始执行提案");
     const box = await ethers.getContract("Box");
     const boxAddress = await box.getAddress();
-    console.log("111");
+    console.log(`执行前 Box value is: ${await box.retrieve()}`);
     // 编码函数调用数据
     const encodedFunctionCall = box.interface.encodeFunctionData(
         functionToCall,
         args,
     );
-    console.log("222");
+
     const descriptionHash = ethers.keccak256(
         ethers.toUtf8Bytes(proposalDescription),
     );
-    console.log("descriptionHash:", descriptionHash);
-    console.log("333");
 
     const governor = await ethers.getContract("MyGovernor");
     const queueTx = await governor.queue(
@@ -32,18 +31,16 @@ async function queueAndExecute(functionToCall, args, proposalDescription) {
         [encodedFunctionCall],
         descriptionHash,
     );
-    console.log("444");
 
     await queueTx.wait(1);
-    console.log("Proposal in queue..");
+    console.log("提案在队列中....");
 
     if (developmentChains.includes(network.name)) {
         await moveTime(minDelay + 1);
         await moveBlocks(1);
     }
-    console.log("555");
 
-    console.log("Executing..");
+    console.log("提案执行ing...");
     //execute
     const executeTx = await governor.execute(
         [boxAddress],
@@ -51,11 +48,10 @@ async function queueAndExecute(functionToCall, args, proposalDescription) {
         [encodedFunctionCall],
         descriptionHash,
     );
-    console.log("666");
 
     await executeTx.wait(1);
-    console.log("Executed..");
-    console.log(`Box value is: ${await box.retrieve()}`);
+    console.log("提案执行完毕...");
+    console.log(`执行后 Box value is: ${await box.retrieve()}`);
 }
 
 queueAndExecute(FUNC, [FUNC_ARGS], DESCRIPTION)

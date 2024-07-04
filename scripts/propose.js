@@ -31,11 +31,7 @@ async function makeProposal(functionToCall, args, proposalDescription) {
         args,
     );
 
-    // 打印调试信息
-    console.log("Function to call: ", functionToCall);
-    console.log("Args: ", args);
-    console.log("Encoded Function Call: ", encodedFunctionCall);
-    console.log("Proposal Description: ", proposalDescription);
+    console.log("开始创建提案");
 
     // 创建提案
     const proposeTx = await governor.propose(
@@ -44,20 +40,21 @@ async function makeProposal(functionToCall, args, proposalDescription) {
         [encodedFunctionCall], // 提案函数调用数据数组
         proposalDescription, // 提案描述
     );
-    console.log("1");
+
     // 等待提案交易确认
     const proposeReceipt = await proposeTx.wait(1);
-    // console.log("2 proposeReceipt:", proposeReceipt);
+
+    console.log("创建提案ing...");
+
     // 如果在开发链上，加速时间以便进行投票
     if (developmentChains.includes(network.name)) {
         await moveBlocks(VOTING_DELAY + 1);
     }
-    console.log("3");
+
     // 获取提案ID
     //const proposalId = proposeReceipt.events[0].args.proposalId;
     const plog = governor.interface.parseLog(proposeReceipt.logs[0]);
     const proposalId = plog.args.proposalId;
-    console.log("proposalId is ", proposalId.toString());
     // 保存提案ID到文件
     fs.writeFileSync(
         PROPOSAL_FILE,
@@ -69,7 +66,14 @@ async function makeProposal(functionToCall, args, proposalDescription) {
     // 获取提案状态
     const proposalState = await governor.state(proposalId);
     // 提案状态：1 表示未通过，0 表示通过
-    console.log(`Current Proposal State: ${proposalState}`);
+    if (proposalState) {
+        console.log(`Current proposalState: ${proposalState}`);
+        console.log(`提案创建成功～～`);
+        console.log("proposalId:", proposalId.toString());
+        console.log(`提案内容为： ${proposalDescription}`);
+    } else {
+        console.log("提案创建失败！");
+    }
 }
 
 // 调用 makeProposal 函数并处理结果
